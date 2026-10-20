@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('batch_lines', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('batch_id');
+            $table->foreignId('product_id');
+            $table->foreignId('storage_id');
+            $table->integer('quantity');
+            $table->integer('available_quanity');
+            $table->integer('sale_price');
             $table->timestamps();
         });
     }

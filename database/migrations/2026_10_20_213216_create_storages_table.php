@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('storages', function (Blueprint $table) {
             $table->id();
+            $table->string('location');
             $table->timestamps();
         });
     }
