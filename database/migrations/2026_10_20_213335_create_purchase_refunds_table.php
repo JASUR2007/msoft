@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('purchase_refunds', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('batch_line_id');
+            $table->integer('amount');
+            $table->integer('quantity');
             $table->timestamps();
         });
     }

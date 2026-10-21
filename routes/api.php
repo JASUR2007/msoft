@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BatchController;
 
-Route::post('batches', [BatchController::class, 'index']);
+Route::post('batches', [BatchController::class, 'store']);
 Route::get('/products/available', []);
 Route::post('/batch/:id/refunds');
 Route::post('/orders');

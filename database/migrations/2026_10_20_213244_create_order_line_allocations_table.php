@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('order_line_allocations', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('order_line_id');
+            $table->foreignId('batch_line_id');
+            $table->integer('quantity');
+            $table->integer('sale_price');
             $table->timestamps();
         });
     }
