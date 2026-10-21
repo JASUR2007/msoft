@@ -2,9 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreOrderRequest;
+use App\Services\OrderService;
+use Illuminate\Http\JsonResponse;
 
-class OrderController extends Controller
-{
-    //
+class OrderController extends Controller {
+    public function store(StoreOrderRequest $request, OrderService $service): JsonResponse {
+        $data = $request->validated();
+        $order = $service->create($data);
+        return response()->json([
+            'data' => $order
+        ], 201);
+    }
 }

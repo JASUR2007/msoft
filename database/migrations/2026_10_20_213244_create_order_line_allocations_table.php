@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('order_line_id');
             $table->foreignId('batch_line_id');
             $table->integer('quantity');
-            $table->integer('sale_price');
+            $table->decimal('sale_price', 18, 2);
             $table->timestamps();
         });
     }

@@ -5,14 +5,12 @@ namespace App\Http\Requests;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreOrderRequest extends FormRequest
-{
+class StoreOrderRequest extends FormRequest {
     /**
      * Determine if the user is authorized to make this request.
      */
-    public function authorize(): bool
-    {
-        return false;
+    public function authorize(): bool {
+        return true;
     }
 
     /**
@@ -20,10 +18,13 @@ class StoreOrderRequest extends FormRequest
      *
      * @return array<string, ValidationRule|array<mixed>|string>
      */
-    public function rules(): array
-    {
+    public function rules(): array {
         return [
-            //
+            'client_id' => ['required', 'integer', 'exists:clients,id'],
+            'products' => ['required', 'min:1', 'array'],
+            'products.*' => ['required', 'array:id,qty'],
+            'products.*.id' => ['required', 'integer', 'distinct', 'exists:products,id'],
+            'products.*.qty' => ['required', 'integer', 'min:1', 'max:1000000'],
         ];
     }
 }

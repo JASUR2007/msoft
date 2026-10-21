@@ -18,9 +18,10 @@ return new class extends Migration
             $table->foreignId('storage_id');
             $table->integer('quantity');
             $table->integer('available_quantity');
-            $table->integer('purchase_price');
-            $table->integer('sale_price');
+            $table->decimal('purchase_price', 18, 2);
+            $table->decimal('sale_price', 18, 2);
             $table->timestamps();
+            $table->index(['product_id', 'created_at', 'id'], 'batch_lines_fifo_index');
         });
     }
 
