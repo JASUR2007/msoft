@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('stock_movements', function (Blueprint $table) {
+            $table->id();
             $table->foreignId('batch_line_id')->constrained('batch_lines')
                 ->restrictOnDelete();
             $table->string('type', 30);

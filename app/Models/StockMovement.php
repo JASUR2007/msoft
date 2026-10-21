@@ -11,14 +11,18 @@ class StockMovement extends Model
         'batch_line_id',
         'type',
         'quantity_change',
-        'occured_at'
+        'occurred_at',
     ];
-        protected function  casts(): array {
-            return [
-                'occured_at' => 'datetime'
-            ];
-        }
-      public function BatchLine(): BelongsTo {
-            return $this->belongsTo(BatchLine::class);
-      }
+
+    protected function casts(): array
+    {
+        return [
+            'occurred_at' => 'datetime',
+        ];
+    }
+
+    public function BatchLine(): BelongsTo
+    {
+        return $this->belongsTo(BatchLine::class);
+    }
 }

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('product_id');
             $table->foreignId('storage_id');
             $table->integer('quantity');
-            $table->integer('available_quanity');
+            $table->integer('available_quantity');
             $table->integer('purchase_price');
             $table->integer('sale_price');
             $table->timestamps();
