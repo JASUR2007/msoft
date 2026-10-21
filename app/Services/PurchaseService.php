@@ -18,17 +18,26 @@ class PurchaseService
             $products = Product::query()->with('category')->whereIn('id', $productId)->get()->keyBy('id');
             foreach ($data['products'] as $index => $item) {
                 $product = $products->get($item['product_id']);
-
                 if ($product === null) {
                     throw ValidationException::withMessages([
                         "products.$index.product_id" => 'Product not found.',
                     ]);
                 }
                 $category = $product->category;
-                if ($category === null ||
-                    (int) $category->provider_id !== (int) $data['provider_id']) {
+                $visited = [];
+                while ($category !== null && $category->parent_id !== null) {
+                    if (isset($visited[$category->id])) {
+                        throw ValidationException::withMessages([
+                            "products.$index.product_id" => 'Cyclic category hierarchy.',
+                        ]);
+                    }
+
+                    $visited[$category->id] = true;
+                    $category = $category->parent;
+                }
+                if ($category === null ||  (int) $category->provider_id !== (int) $data['provider_id']) {
                     throw ValidationException::withMessages([
-                        "products.$index.product_id" => 'Product with no provider.',
+                        "products.$index.product_id" => 'Invalid provider.',
                     ]);
                 }
             }

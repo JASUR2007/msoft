@@ -23,7 +23,9 @@ class StoreReturnRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'batch_line_id' => ['required','integer', 'exists:batch,id'],
+            'amount' => ['required', 'integer'],
+            'quantity' => ['required', 'integer']
         ];
     }
 }
