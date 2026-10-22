@@ -5,14 +5,12 @@ namespace App\Http\Requests;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreReturnRequest extends FormRequest
-{
+class StoreReturnRequest extends FormRequest {
     /**
      * Determine if the user is authorized to make this request.
      */
-    public function authorize(): bool
-    {
-        return false;
+    public function authorize(): bool {
+        return true;
     }
 
     /**
@@ -20,12 +18,10 @@ class StoreReturnRequest extends FormRequest
      *
      * @return array<string, ValidationRule|array<mixed>|string>
      */
-    public function rules(): array
-    {
+    public function rules(): array {
         return [
-            'batch_line_id' => ['required','integer', 'exists:batch,id'],
-            'amount' => ['required', 'integer'],
-            'quantity' => ['required', 'integer']
+            'batch_line_id' => ['required', 'integer', 'exists:batch_lines,id'],
+            'quantity' => ['required', 'integer', 'min:1', 'max:1000000'],
         ];
     }
 }

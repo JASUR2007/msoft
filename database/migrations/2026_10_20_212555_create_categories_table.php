@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->foreignId('parent_id')->nullable();
-            $table->foreignId('provider_id');
+            $table->foreignId('provider_id')->nullable();
             $table->timestamps();
         });
     }

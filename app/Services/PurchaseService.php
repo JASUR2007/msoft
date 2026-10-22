@@ -4,18 +4,28 @@ namespace App\Services;
 
 use App\Models\Batch;
 use App\Models\BatchLine;
+use App\Models\Category;
 use App\Models\Product;
 use App\Models\StockMovement;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
-class PurchaseService
-{
-    public function purchase(array $data): Batch
-    {
+class PurchaseService {
+    public function purchase(array $data): Batch {
         return DB::transaction(function () use ($data) {
             $productId = collect($data['products'])->pluck('product_id')->unique();
             $products = Product::query()->with('category')->whereIn('id', $productId)->get()->keyBy('id');
+            $categories = $products->pluck('category')->filter()->keyBy('id');
+            $frontier = $categories;
+            while ($frontier->isNotEmpty()) {
+                $parentIds = $frontier->pluck('parent_id')->filter()->unique()->diff($categories->keys());
+                if ($parentIds->isEmpty()) {
+                    break;
+                }
+                $frontier = Category::query()->whereIn('id', $parentIds)->get()->keyBy('id');
+                $categories = $categories->union($frontier);
+            }
+
             foreach ($data['products'] as $index => $item) {
                 $product = $products->get($item['product_id']);
                 if ($product === null) {
@@ -28,14 +38,14 @@ class PurchaseService
                 while ($category !== null && $category->parent_id !== null) {
                     if (isset($visited[$category->id])) {
                         throw ValidationException::withMessages([
-                            "products.$index.product_id" => 'Cyclic category hierarchy.',
+                            "products.$index.product_id" => 'Eternal category.',
                         ]);
                     }
 
                     $visited[$category->id] = true;
-                    $category = $category->parent;
+                    $category = $categories->get($category->parent_id);
                 }
-                if ($category === null ||  (int) $category->provider_id !== (int) $data['provider_id']) {
+                if ($category === null || (int) $category->provider_id !== (int) $data['provider_id']) {
                     throw ValidationException::withMessages([
                         "products.$index.product_id" => 'Invalid provider.',
                     ]);
