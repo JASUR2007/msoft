@@ -8,3 +8,4 @@ use Illuminate\Support\Facades\Route;
 Route::post('batches', [BatchController::class, 'store']);
 Route::post('orders', [OrderController::class, 'store']);
 Route::get('storage/stock', [StorageController::class, 'index']);
+Route::get('batches/profits', [BatchController::class, 'profits']);
