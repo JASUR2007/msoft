@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('sales_refunds', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('order_line_allocation_id');
+            $table->foreignId('order_line_allocation_id')->index()->constrained('order_line_allocations')->restrictOnDelete();
             $table->decimal('amount', 18, 2);
             $table->integer('quantity');
             $table->timestamps();

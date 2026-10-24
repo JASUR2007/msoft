@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('category_id');
+            $table->foreignId('category_id')->index()->constrained('categories')->restrictOnDelete();
             $table->string('name');
             $table->decimal('price', 18, 2);
             $table->timestamps();

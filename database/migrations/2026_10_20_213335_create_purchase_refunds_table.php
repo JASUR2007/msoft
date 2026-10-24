@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('purchase_refunds', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('batch_line_id');
+            $table->foreignId('batch_line_id')->index()->constrained('batch_lines')->restrictOnDelete();
             $table->decimal('amount', 18, 2);
             $table->integer('quantity');
             $table->timestamps();

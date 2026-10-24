@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('order_line_allocations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('order_line_id');
-            $table->foreignId('batch_line_id');
+            $table->foreignId('order_line_id')->index()->constrained('order_lines')->restrictOnDelete();
+            $table->foreignId('batch_line_id')->index()->constrained('batch_lines')->restrictOnDelete();
             $table->integer('quantity');
             $table->decimal('sale_price', 18, 2);
             $table->timestamps();

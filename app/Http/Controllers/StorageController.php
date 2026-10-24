@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class StorageController extends Controller {
     public function index(Request $request, InventoryService $service): JsonResponse {
         $data = $request->validate([
-            'date' => ['required', 'date_format:Y-m-d'],
+            'date' => ['required', 'date_format:d-m-Y'],
             'storage_id' => ['sometimes', 'integer', 'exists:storages,id'],
         ]);
 

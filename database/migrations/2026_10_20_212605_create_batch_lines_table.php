@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('batch_lines', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('batch_id');
-            $table->foreignId('product_id');
-            $table->foreignId('storage_id');
+            $table->foreignId('batch_id')->index()->constrained('batches')->restrictOnDelete();
+            $table->foreignId('product_id')->index()->constrained('products')->restrictOnDelete();
+            $table->foreignId('storage_id')->index()->constrained('storages')->restrictOnDelete();
             $table->integer('quantity');
             $table->integer('available_quantity');
             $table->decimal('purchase_price', 18, 2);

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('client_id');
+            $table->foreignId('client_id')->index()->constrained('clients')->restrictOnDelete();
             $table->timestamps();
         });
     }
